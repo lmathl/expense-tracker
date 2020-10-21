@@ -1,6 +1,6 @@
-# Expense Tracker [Android application]
+# Expense Tracker (Android application)
 
-Features
+### Features
 - tracks expenses and wishlist
 - uses SQLite to persist data on device
 - includes month navigation to review previous records
