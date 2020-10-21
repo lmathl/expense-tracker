@@ -42,7 +42,7 @@ public class RecordHelper {
 
     public ArrayList<Record> query(){
         ArrayList<Record> arrayList = new ArrayList<Record>();
-        Cursor cursor = database.query(DATABASE_TABLE,null,null,null,null,null,DATE +" ASC",null);
+        Cursor cursor = database.query(DATABASE_TABLE,null,null,null,null,null,DATE +" DESC",null);
         cursor.moveToFirst();
         Record record;
         if (cursor.getCount()>0) {
@@ -145,7 +145,7 @@ public class RecordHelper {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public ArrayList<Record> queryByMonthYear(String month, String year) {
         String whereCondition = " WHERE "
-                + "strftime('%m'," + DATE + ") = '" + month + "' AND strftime('%Y'," + DATE + ") = '" + year + "'";
+                + "strftime('%m'," + DATE + ") = '" + month + "' AND strftime('%Y'," + DATE + ") = '" + year + "'" + " ORDER BY DATE DESC";
         return getRecords(whereCondition);
     }
 

@@ -244,16 +244,13 @@ public class MonthFragment extends Fragment {
         }
 
         @Override
-        protected ArrayList<Record> doInBackground(Void... voids) {
-            return recordHelper.queryByMonthYear(fixSingleDigit(month+1), String.valueOf(year));
-        }
+        protected ArrayList<Record> doInBackground(Void... voids) { return recordHelper.queryByMonthYear(fixSingleDigit(month+1), String.valueOf(year)); }
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected void onPostExecute(ArrayList<Record> monthRecords) {
             super.onPostExecute(monthRecords);
 
-            list.clear();
             list.addAll(monthRecords);
 
             adapter.setRecords(list);
