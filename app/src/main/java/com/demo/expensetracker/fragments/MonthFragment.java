@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,12 +35,8 @@ import com.demo.expensetracker.utils.DateUtils;
 import com.demo.expensetracker.utils.SwipeToDeleteCallback;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.Random;
 
 public class MonthFragment extends Fragment {
 
@@ -227,19 +222,9 @@ public class MonthFragment extends Fragment {
             if (list.size() > 0){
                 list.clear();
             }
-        }
 
-        @Override
-        protected ArrayList<Record> doInBackground(Void... voids) {
-            return recordHelper.queryByMonthYear(fixSingleDigit(month+1), String.valueOf(year));
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        @Override
-        protected void onPostExecute(ArrayList<Record> monthRecords) {
-            super.onPostExecute(monthRecords);
-
-            if (list.size() == 0){
+            /* codes for generating demo data
+            if (recordHelper.query().size() == 0){
                 ArrayList<String> dates = new ArrayList<String>();
                 final Calendar cal = Calendar.getInstance();
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -255,6 +240,18 @@ public class MonthFragment extends Fragment {
                     recordHelper.insert(new Record(dates.get(i-1), generateRandomDescription(expenses)));
                 }
             }
+            */
+        }
+
+        @Override
+        protected ArrayList<Record> doInBackground(Void... voids) {
+            return recordHelper.queryByMonthYear(fixSingleDigit(month+1), String.valueOf(year));
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected void onPostExecute(ArrayList<Record> monthRecords) {
+            super.onPostExecute(monthRecords);
 
             list.clear();
             list.addAll(monthRecords);
@@ -335,7 +332,7 @@ public class MonthFragment extends Fragment {
         Snackbar.make(containerLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 
-//    /* codes for generating demo data
+    /* codes for generating demo data
     public static ArrayList<String> generateRandomExpenses() {
         ArrayList<String> zhExpenses = new ArrayList<String>();
         for (int i = 30; i < 60; i++) {
@@ -344,7 +341,7 @@ public class MonthFragment extends Fragment {
         }
         for (int i = 10; i < 20; i++) {
             zhExpenses.add("奶+麵包 " + i);
-            zhExpenses.add("麥皮" + i);
+            zhExpenses.add("麥皮 " + i);
         }
         for (int i = 50; i < 100; i++) {
             zhExpenses.add("出街食 " + i);
@@ -393,5 +390,5 @@ public class MonthFragment extends Fragment {
         items.add(getRandomElement(expenses));
         return TextUtils.join(", ", items);
     }
-//    */
+    */
 }
