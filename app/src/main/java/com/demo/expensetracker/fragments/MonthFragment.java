@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,8 +36,12 @@ import com.demo.expensetracker.utils.DateUtils;
 import com.demo.expensetracker.utils.SwipeToDeleteCallback;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.Random;
 
 public class MonthFragment extends Fragment {
 
@@ -234,6 +239,23 @@ public class MonthFragment extends Fragment {
         protected void onPostExecute(ArrayList<Record> monthRecords) {
             super.onPostExecute(monthRecords);
 
+            if (list.size() == 0){
+                ArrayList<String> dates = new ArrayList<String>();
+                final Calendar cal = Calendar.getInstance();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                ArrayList<String> expenses = new ArrayList<String>();
+                if (Locale.getDefault().getLanguage() == "en"){
+                    expenses = generateRandomExpensesEng();
+                } else {
+                    expenses = generateRandomExpenses();
+                }
+                for (int i = 1; i < 61; i++) {
+                    cal.add(Calendar.DATE, -1);
+                    dates.add(dateFormat.format(cal.getTime()));
+                    recordHelper.insert(new Record(dates.get(i-1), generateRandomDescription(expenses)));
+                }
+            }
+
             list.clear();
             list.addAll(monthRecords);
 
@@ -313,23 +335,7 @@ public class MonthFragment extends Fragment {
         Snackbar.make(containerLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 
-    /* codes for generating demo data
-
-        ArrayList<String> dates = new ArrayList<String>();
-        final Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        ArrayList<String> expenses = new ArrayList<String>();
-        if (Locale.getDefault().getLanguage() == "en"){
-            expenses = generateRandomExpensesEng();
-        } else {
-            expenses = generateRandomExpenses();
-        }
-        for (int i = 1; i < 61; i++) {
-            cal.add(Calendar.DATE, -1);
-            dates.add(dateFormat.format(cal.getTime()));
-            recordHelper.insert(new Record(dates.get(i-1), generateRandomDescription(expenses)));
-        }
-
+//    /* codes for generating demo data
     public static ArrayList<String> generateRandomExpenses() {
         ArrayList<String> zhExpenses = new ArrayList<String>();
         for (int i = 30; i < 60; i++) {
@@ -387,5 +393,5 @@ public class MonthFragment extends Fragment {
         items.add(getRandomElement(expenses));
         return TextUtils.join(", ", items);
     }
-    */
+//    */
 }
