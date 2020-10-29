@@ -219,10 +219,6 @@ public class MonthFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            if (list.size() > 0){
-                list.clear();
-            }
-
             /* codes for generating demo data
             if (recordHelper.query().size() == 0){
                 ArrayList<String> dates = new ArrayList<String>();
@@ -252,11 +248,11 @@ public class MonthFragment extends Fragment {
             super.onPostExecute(monthRecords);
 
             list.addAll(monthRecords);
-
             adapter.setRecords(list);
             adapter.notifyDataSetChanged();
+
             if (list.size() > 0) {
-                tvTotalSum.setText("$" + recordHelper.getTotalAmountSpent(list));
+                tvTotalSum.setText("$" + recordHelper.getTotalAmountSpent(monthRecords));
                 setResultsMessage(false);
             } else {
                 showSnackbarMessage(getString(R.string.no_items));

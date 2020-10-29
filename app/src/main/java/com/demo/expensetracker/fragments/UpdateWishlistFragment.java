@@ -85,6 +85,10 @@ public class UpdateWishlistFragment extends Fragment {
                     isEmpty = true;
                     etItem.setError(getText(R.string.not_blank));
                 }
+                if (TextUtils.isEmpty(price)){
+                    isEmpty = true;
+                    etPrice.setError(getText(R.string.not_blank));
+                }
 
                 if (!isEmpty){
                     WishlistItem newWishlistItem = new WishlistItem();

@@ -21,7 +21,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordViewholder>{
@@ -148,20 +147,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordView
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 final FilterResults oReturn = new FilterResults();
-                final List<Record> results = new ArrayList<>();
-                if (recordsSearch == null) {
-                    recordsSearch = records;
-                }
+
                 if (charSequence != null) {
-                    if (recordsSearch != null && recordsSearch.size() > 0) {
-                        for (final Record record : recordsSearch) {
-                            if (record.getDescription().toLowerCase().contains(charSequence.toString())) {
-                                results.add(record);
-                            }
-                        }
-                    }
-                    oReturn.values = results;
-                    oReturn.count = results.size();
+                    String whereCondition = " WHERE description LIKE '%"+ charSequence.toString() + "%'  --case-insensitive";
+                    recordsSearch = recordHelper.getRecords(whereCondition);
+
+                    oReturn.values = recordsSearch;
+                    oReturn.count = recordsSearch.size();
                 }
                 return oReturn;
             }
